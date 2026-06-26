@@ -201,6 +201,30 @@ sidebar:
   - 牛奶
   - 奶酪
 
+## 数学公式
+
+### 语法
+
+```markdown
+行内公式示例：当 $a \ne 0$ 时，二次方程 $ax^2 + bx + c = 0$ 的解为 $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$。
+
+行间公式示例：
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+$$
+```
+
+### 渲染效果
+
+行内公式示例：当 $a \ne 0$ 时，二次方程 $ax^2 + bx + c = 0$ 的解为 $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$。
+
+行间公式示例：
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+$$
+
 ## 其他常见内联元素
 
 ### 语法
