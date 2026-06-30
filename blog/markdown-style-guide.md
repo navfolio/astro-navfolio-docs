@@ -53,7 +53,7 @@ sidebar:
 
 ### 渲染效果
 
-![blog placeholder](/src/assets/figure//blog-sample-picture.png)
+![blog placeholder](/src/assets/figure/blog-sample-picture.png)
 
 ## 引用
 

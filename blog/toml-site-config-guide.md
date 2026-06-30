@@ -130,6 +130,8 @@ postsPerPage = 6
 
 `postsPerPage` 控制 `/blog` 归档页每页展示多少篇文章，默认值是 `6`。当文章数量超过这个值时，第一页仍然是 `/blog/`，后续页面会生成到 `/blog/page/2/`、`/blog/page/3/` 这样的路径。
 
+归档排序本身由文章 frontmatter 决定，而不是写在 TOML 里。普通文章按 `date` 从新到旧排列；如果某篇文章设置了 `sticky: true` 或正数优先级，它会先进入归档列表，再参与分页切片。也就是说，`postsPerPage` 只控制每页容量，不改变置顶文章的优先展示规则。
+
 ## 首页模块
 
 首页相关内容都放在 `config.home` 下。
