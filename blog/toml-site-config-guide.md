@@ -121,10 +121,10 @@ placeholder = "Search notes..."
 maxResults = 6
 ```
 
-博客归档列表的分页配置位于 `config.blog`：
+博客归档列表的分页配置位于 `config.pages.blog`：
 
 ```toml
-[config.blog]
+[config.pages.blog]
 postsPerPage = 6
 ```
 
@@ -205,8 +205,7 @@ mark = "03"
 - `site.repository` 必须是 URL。
 - `profile.email` 必须是 email。
 - `search.maxResults` 必须是正整数。
-- `blog.postsPerPage` 必须是正整数，未填写时默认是 `6`。
-- `home.layout` 目前只允许 `grid`。
+- `pages.blog.postsPerPage` 必须是正整数，未填写时默认是 `6`。
 - `home.navigation` 必须包含 `icon`、`title`、`subtitle`、`href`。
 - `home.doing` 必须包含 `text` 和 `mark`。
 
@@ -220,7 +219,7 @@ Astro 组件支持顶层 `await`，所以可以直接读取配置：
 ---
 import { getSiteConfig } from '../data/site';
 
-const { site, profile, home, topNav, search, blog } = await getSiteConfig();
+const { site, profile, home, topNav, search, pages } = await getSiteConfig();
 ---
 ```
 
@@ -234,7 +233,7 @@ const { site, profile, home, topNav, search, blog } = await getSiteConfig();
 - 作者和身份信息放在 `[config.profile]`。
 - 顶部导航放在 `[[config.topNav.links]]`。
 - 搜索入口放在 `[config.search]`。
-- 博客归档分页放在 `[config.blog]`。
+- 博客归档分页放在 `[config.pages.blog]`。
 - 首页展示数据放在 `[config.home]` 及其子表。
 
 新增模块时，先想清楚它是站点级配置、作者资料，还是首页展示数据。结构稳定后，再在 `src/content.config.ts` 补上 schema，并让组件通过 `getSiteConfig()` 消费它。

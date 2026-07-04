@@ -86,6 +86,7 @@ src/styles/fonts.css
 ```toml
 [config.fonts]
 en = "Maple Mono"
+code = "Maple Mono"
 zh = "ChillRoundM"
 file = "/fonts/ChillRoundM.ttf"
 ```
@@ -93,6 +94,7 @@ file = "/fonts/ChillRoundM.ttf"
 这些字段保持短而直接：
 
 - `en`：英文、代码感 UI、元信息和按钮标签的字体族。
+- `code`：代码块、行内代码和 `--font-code` 使用的字体族；未配置时会回退到 `en` 的默认字体。
 - `zh`：中文阅读文本的字体族。
 - `file`：完整中文字体的本地文件路径，也用于子集生成。
 
@@ -102,6 +104,7 @@ UI 子集路径不需要手动配置，会自动从 `file` 推导。例如 `/fon
 
 ```txt
 en: Maple Mono
+code: Maple Mono
 zh: ChillRoundM
 file: /fonts/ChillRoundM.ttf
 ```
@@ -174,6 +177,7 @@ src/styles/fonts.css
 ```toml
 [config.fonts]
 en = "Maple Mono"
+code = "Maple Mono"
 zh = "Noto Serif SC"
 file = "/fonts/NotoSerifSC-Regular.otf"
 ```
