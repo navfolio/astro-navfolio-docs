@@ -20,8 +20,6 @@ sidebar:
   relatedPosts: true
 ---
 
-# Font System Configuration
-
 > 小记：之前默认用的是 [LXGW WenKai](https://github.com/lxgw/LxgwWenKai)。它的阅读体验很舒服，尤其适合长文，但在加粗、倾斜和一些 UI 状态里的适配不算稳定。所以这次默认中文字体改成了寒蝉半圆体 [ChillRound](https://github.com/Warren2060/ChillRound)，整体会更圆润，也更适合和 UI 字重一起工作。
 
 Navfolio 的字体系统分成两层：字体文件在哪里加载，以及页面应该优先使用哪个字体族。
