@@ -77,6 +77,19 @@ const entry = await getEntry('siteConfig', 'config');
 
 项目已经把这段读取逻辑封装在 `getSiteConfig()` 中，日常使用不需要在组件里直接调用 `getEntry()`。
 
+## Theme and UI Language
+
+`theme` controls the visual palette and the language used by static native UI labels:
+
+```toml
+[config.theme]
+palette = "green-soft"
+lang = "en"
+```
+
+`lang` currently supports `en`, `zh-CN`, and `zh-TW`. Aliases such as `zh-Hans` resolve to `zh-CN`, while `zh-Hant`, `zh-HK`, and `zh-MO` resolve to `zh-TW`. Unknown values fall back to English.
+Native UI strings live in `src/i18n/*.json`, while `src/utils/ui-text.ts` keeps the runtime lookup and template formatting logic.
+
 ## 个人资料
 
 `profile` 保存站点作者和头像信息，会被首页 Profile 卡片、文章作者卡片、页脚社交链接等位置复用：
@@ -86,12 +99,9 @@ const entry = await getEntry('siteConfig', 'config');
 name = "navfolio"
 handle = "@navfolio"
 role = "A Cat Developer"
-company = "Independent Studio"
-location = "Remote"
 email = "hello@navfolio.site"
 website = "https://astro.navfolio.site/"
 github = "https://github.com/navfolio"
-meta = "Open-source maintainer"
 avatar = "/images/logo.png"
 ```
 
@@ -141,7 +151,6 @@ postsPerPage = 6
 ```toml
 [config.home.quote]
 text = ["Navigate your world,", "Showcase your story,", "and keep everything in one place."]
-image = "/images/logo-with-name.png"
 ```
 
 `intro` 控制首页主介绍文案：
@@ -154,7 +163,6 @@ body = [
   "The name combines \"Navigation\" and \"Portfolio\".",
   "Navfolio focuses on lightweight organization, smooth reading experience, and developer-friendly aesthetics.",
 ]
-image = "/images/logo-cat.png"
 ```
 
 `navigation` 是首页身份入口卡片：
@@ -167,13 +175,14 @@ subtitle = "Code, experiments, and tools"
 href = "https://github.com/navfolio"
 ```
 
-`connect` 是联系方式和常用入口：
+`links` 是联系方式和常用入口：
 
 ```toml
-[[config.home.connect]]
+[[config.home.links]]
 label = "Email"
-href = "mailto:hello@navfolio.site"
 icon = "mail"
+tooltip = "hello@navfolio.site"
+copy = true
 ```
 
 `doing` 是最近关注事项：
@@ -230,6 +239,7 @@ const { site, profile, home, topNav, search, pages } = await getSiteConfig();
 编辑 TOML 时，优先保持现有分组：
 
 - 站点级元信息放在 `[config.site]`。
+- 主题色盘和静态 UI 语言放在 `[config.theme]`。
 - 作者和身份信息放在 `[config.profile]`。
 - 顶部导航放在 `[[config.topNav.links]]`。
 - 搜索入口放在 `[config.search]`。

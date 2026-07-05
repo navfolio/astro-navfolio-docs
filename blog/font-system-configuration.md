@@ -130,6 +130,8 @@ public/fonts/ChillRoundM-ui-subset.woff2
 scripts/fonts/subset-ui-font.ts
 ```
 
+静态 UI 文案也在子集扫描范围内。内置多语言文案集中放在 `src/i18n/*.json`，`src/utils/ui-text.ts` 只负责把 JSON 文案转换成页面使用的读取函数。`bun run fonts:ui` 会把这些 JSON 里的中文字符纳入 `scripts/fonts/ui-chars.txt`，避免切换到简体中文 UI 时额外触发完整中文字体文件。
+
 子集脚本会读取 `src/config/site.toml`：
 
 - 使用 `config.fonts.file` 作为源字体文件。
