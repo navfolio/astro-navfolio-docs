@@ -1,6 +1,6 @@
 ---
 title: '使用 Callout 插件渲染 Obsidian 风格提示框'
-description: '了解 @navfolio/plugin-callout 如何在 Navfolio 中解析 Obsidian Callout 语法，并渲染 note、tip、warning、danger、quote 等提示框。'
+description: '了解 @navfolio/plugin-markdown 如何在 Navfolio 中解析 Obsidian Callout 语法，并渲染 note、tip、warning、danger、quote 等提示框。'
 date: '2026-07-12T03:00:00+08:00'
 draft: false
 showHeroImage: false
@@ -19,7 +19,7 @@ sidebar:
   relatedPosts: true
 ---
 
-`@navfolio/plugin-callout` 是 Navfolio 的 Obsidian 风格 Callout 插件。它会把 Markdown 引用块中的 `[!type]` 标记解析成更适合阅读的提示框，用来承载说明、提醒、警告、FAQ、引用和示例。
+Navfolio 通过 `@navfolio/plugin-markdown` 内置 Obsidian 风格 Callout 能力。它会把 Markdown 引用块中的 `[!type]` 标记解析成更适合阅读的提示框，用来承载说明、提醒、警告、FAQ、引用和示例。
 
 这个插件适合从 Obsidian 迁移内容的写作者：原本写在笔记里的 Callout 语法可以直接放进 Navfolio 的文章和文档里，不需要改成额外的 Astro 组件。
 
@@ -27,24 +27,23 @@ sidebar:
 
 ## 安装与启用
 
-在 Navfolio 项目中安装插件：
+在 Navfolio 项目中安装或更新 Markdown 插件：
 
 ```sh
-bun add @navfolio/plugin-callout@github:navfolio/plugin-callout
+bun add @navfolio/plugin-markdown@github:navfolio/plugin-markdown
 ```
 
-然后在 `navfolio.config.ts` 中启用：
+然后在 `navfolio.config.ts` 中启用 `markdownPlugin()`。Callout 默认开启，如果需要显式声明，可以保留 `callouts: true`：
 
 ```ts
-import { calloutPlugin } from '@navfolio/plugin-callout';
 import { markdownPlugin } from '@navfolio/plugin-markdown';
 
 import { defineNavfolioConfig } from './src/plugins/config';
 
 export default defineNavfolioConfig({
   plugins: [
-    calloutPlugin(),
     markdownPlugin({
+      callouts: true,
       expressiveCode: true,
       math: {
         enabled: true,
@@ -56,11 +55,13 @@ export default defineNavfolioConfig({
 });
 ```
 
-最后在全局样式中引入默认样式：
+最后在全局样式中引入 Markdown 插件的默认样式：
 
 ```css
-@import '@navfolio/plugin-callout/styles.css';
+@import '@navfolio/plugin-markdown/styles.css';
 ```
+
+`@navfolio/plugin-callout` 是底层实现包，适合插件维护和其他项目复用；在 Navfolio 项目里，通常只需要通过 `@navfolio/plugin-markdown` 间接使用它。若要关闭 Callout 渲染，可以在 `markdownPlugin()` 中设置 `callouts: false`。
 
 ## 基础语法
 
