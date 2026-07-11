@@ -55,11 +55,7 @@ export default defineNavfolioConfig({
 });
 ```
 
-最后在全局样式中引入 Markdown 插件的默认样式：
-
-```css
-@import '@navfolio/plugin-markdown/styles.css';
-```
+Callout 样式会由 `@navfolio/plugin-markdown` 自动注入，不需要在 `global.css` 中额外引入 `@navfolio/plugin-callout` 或 Markdown 插件的样式文件。
 
 `@navfolio/plugin-callout` 是底层实现包，适合插件维护和其他项目复用；在 Navfolio 项目里，通常只需要通过 `@navfolio/plugin-markdown` 间接使用它。若要关闭 Callout 渲染，可以在 `markdownPlugin()` 中设置 `callouts: false`。
 
