@@ -1,7 +1,7 @@
 ---
 title: docs polish
-date: "2026-05-29T22:08:00+08:00"
-updatedDate: "2026-05-29T22:08:00+08:00"
+date: '2026-05-29T22:08:00+08:00'
+updatedDate: '2026-05-29T22:08:00+08:00'
 draft: false
 type: text
 mood: final pass

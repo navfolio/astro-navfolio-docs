@@ -1,7 +1,7 @@
 ---
 title: page modules
-date: "2026-05-24T09:20:00+08:00"
-updatedDate: "2026-05-24T09:20:00+08:00"
+date: '2026-05-24T09:20:00+08:00'
+updatedDate: '2026-05-24T09:20:00+08:00'
 draft: false
 type: text
 mood: tidy split
