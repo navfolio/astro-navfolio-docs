@@ -1,7 +1,7 @@
 ---
-title: "Page Module 页面能力配置指南"
-description: "了解 navfolio 如何把 Projects、Vibe 等页面能力配置为可开启、可关闭、可改路由的 page module。"
-date: "2026-07-12T16:30:00+08:00"
+title: 'Page Module 页面能力配置指南'
+description: '了解 navfolio 如何把 Projects、Vibe 等页面能力配置为可开启、可关闭、可改路由的 page module。'
+date: '2026-07-12T16:30:00+08:00'
 draft: false
 showHeroImage: false
 tags:
@@ -34,10 +34,10 @@ navfolio.config.ts
 模板默认启用内置页面模块：
 
 ```ts
-import { markdownPlugin } from "@navfolio/plugin-markdown";
+import { markdownPlugin } from '@navfolio/plugin-markdown';
 
-import { projectsModule, vibeModule } from "./src/modules";
-import { defineNavfolioConfig } from "./src/plugins/config";
+import { projectsModule, vibeModule } from './src/modules';
+import { defineNavfolioConfig } from './src/plugins/config';
 
 export default defineNavfolioConfig({
   modules: [projectsModule(), vibeModule()],
@@ -84,7 +84,7 @@ export default defineNavfolioConfig({
   modules: [
     projectsModule(),
     vibeModule({
-      route: "/space",
+      route: '/space',
     }),
   ],
   plugins: [markdownPlugin()],
