@@ -1,7 +1,7 @@
 ---
-title: "Page Module 页面能力配置指南"
-description: "了解 navfolio 如何用 @navfolio/pages 管理 Projects、Vibe 等可开启、可关闭、可改路由的页面模块。"
-date: "2026-07-12T16:30:00+08:00"
+title: 'Page Module 页面能力配置指南'
+description: '了解 navfolio 如何用 @navfolio/pages 管理 Projects、Vibe 等可开启、可关闭、可改路由的页面模块。'
+date: '2026-07-12T16:30:00+08:00'
 draft: false
 showHeroImage: false
 tags:
@@ -42,10 +42,10 @@ page module 有两层配置入口：
 模板默认启用内置页面模块：
 
 ```ts
-import { pages, projectsModule, vibeModule } from "@navfolio/pages";
-import { markdownPlugin } from "@navfolio/plugin-markdown";
+import { pages, projectsModule, vibeModule } from '@navfolio/pages';
+import { markdownPlugin } from '@navfolio/plugin-markdown';
 
-import { defineNavfolioConfig } from "./src/plugins/config";
+import { defineNavfolioConfig } from './src/plugins/config';
 
 export default defineNavfolioConfig({
   modules: [projectsModule(), vibeModule()],
@@ -122,7 +122,7 @@ export default defineNavfolioConfig({
   modules: [
     projectsModule(),
     vibeModule({
-      route: "/space",
+      route: '/space',
     }),
   ],
   plugins: [markdownPlugin(), pages()],
@@ -167,13 +167,13 @@ bun run content:new -- vibe today-note
 ```ts
 export function customPageModule() {
   return {
-    id: "hello",
-    route: "/hello",
-    nav: { label: "Hello", href: "/hello" },
+    id: 'hello',
+    route: '/hello',
+    nav: { label: 'Hello', href: '/hello' },
     collections: [],
     routes: [
       {
-        entrypoint: new URL("./routes/hello.astro", import.meta.url),
+        entrypoint: new URL('./routes/hello.astro', import.meta.url),
         prerender: true,
       },
     ],
@@ -184,8 +184,8 @@ export function customPageModule() {
 然后在站点里注册：
 
 ```ts
-import { pages, projectsModule, vibeModule } from "@navfolio/pages";
-import { customPageModule } from "@your-scope/page-hello";
+import { pages, projectsModule, vibeModule } from '@navfolio/pages';
+import { customPageModule } from '@your-scope/page-hello';
 
 export default defineNavfolioConfig({
   plugins: [markdownPlugin(), pages()],
@@ -197,13 +197,13 @@ export default defineNavfolioConfig({
 
 ```ts
 customPageModule({
-  route: "/space",
+  route: '/space',
   scaffold: {
-    command: "space",
-    collection: "space",
-    directory: "src/content/space",
-    defaultExtension: "md",
-    template: "article",
+    command: 'space',
+    collection: 'space',
+    directory: 'src/content/space',
+    defaultExtension: 'md',
+    template: 'article',
   },
 });
 ```
