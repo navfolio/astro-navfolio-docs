@@ -1,7 +1,7 @@
 ---
-title: 'Page Module 页面能力配置指南'
-description: '了解 navfolio 如何把 Projects、Vibe 等页面能力配置为可开启、可关闭、可改路由的 page module。'
-date: '2026-07-12T16:30:00+08:00'
+title: "Page Module 页面能力配置指南"
+description: "了解 navfolio 如何用 @navfolio/pages 管理 Projects、Vibe 等可开启、可关闭、可改路由的页面模块。"
+date: "2026-07-12T16:30:00+08:00"
 draft: false
 showHeroImage: false
 tags:
@@ -19,28 +19,37 @@ sidebar:
   relatedPosts: true
 ---
 
-navfolio 默认展示完整的模板能力，所以 `Projects` 和 `Vibe` 页面都是开启的。对于真实个人站点，你可以把这些页面当成 page module：需要就保留，不需要就关闭，想换路径也可以直接在构建配置里调整。
+navfolio 默认展示完整的模板能力，所以 `Projects` 和 `Vibe` 页面都是开启的。真实站点可以把这些页面能力当成 page module：需要就保留，不需要就关闭，想换路由也可以在构建配置里调整。
+
+page module 现在由 `@navfolio/pages` 统一接入：
+
+- `@navfolio/pages`：推荐入口，导出 page module 类型、配置解析工具、`pages()` 插件标记，并聚合内置模块。
+- `@navfolio/page-projects`：导出 `projectsModule()`。
+- `@navfolio/page-vibe`：导出 `vibeModule()`。
+- `@navfolio/page-template`：给贡献者参考的自定义页面模块模板。
+
+## 配置入口
 
 page module 有两层配置入口：
 
 - `src/config/site.toml`：快速内容配置，适合改导航文案、导航顺序、页面标题、说明文字和首页卡片。
-- `navfolio.config.ts`：高级构建配置，适合改页面是否启用、真实路由、内容目录、内容脚手架和后续插件注册。
+- `navfolio.config.ts`：高级构建配置，适合改页面是否启用、真实路由、内容目录、脚手架命令和后续插件注册。
 
-这个分工可以避免路由同时散落在多个地方。真实 route 由 `navfolio.config.ts` 决定，`site.toml` 里的导航可以引用模块 id。
+真实 route 由 `navfolio.config.ts` 决定。`site.toml` 里的导航可以用 `module` 引用模块 id，这样不会把构建级路由重复写进 TOML。
 
 ## 默认开启
 
 模板默认启用内置页面模块：
 
 ```ts
-import { markdownPlugin } from '@navfolio/plugin-markdown';
+import { pages, projectsModule, vibeModule } from "@navfolio/pages";
+import { markdownPlugin } from "@navfolio/plugin-markdown";
 
-import { projectsModule, vibeModule } from './src/modules';
-import { defineNavfolioConfig } from './src/plugins/config';
+import { defineNavfolioConfig } from "./src/plugins/config";
 
 export default defineNavfolioConfig({
   modules: [projectsModule(), vibeModule()],
-  plugins: [markdownPlugin()],
+  plugins: [markdownPlugin(), pages()],
 });
 ```
 
@@ -51,11 +60,11 @@ export default defineNavfolioConfig({
 | `projectsModule()` | `/projects` | `src/content/projects/` |
 | `vibeModule()`     | `/vibe`     | `src/content/vibe/`     |
 
-默认开启是为了让模板站点能完整展示作品集页面、碎片记录页面、博客文章和其他内置体验。你在真正落地自己的站点时，可以按需要删减。
+默认开启是为了让模板站点完整展示作品集页面、碎片记录页面、博客文章和其他内置体验。你在落地自己的站点时，可以按需要删减。
 
 ## 快速配置导航
 
-推荐在 `src/config/site.toml` 里用 `module` 引用内置页面模块：
+推荐在 `src/config/site.toml` 里用 `module` 引用页面模块：
 
 ```toml
 [[config.topNav.links]]
@@ -67,7 +76,7 @@ label = "Vibe"
 module = "vibe"
 ```
 
-这样 `site.toml` 只负责导航的展示顺序和文字，真实路径仍由 `navfolio.config.ts` 里的模块配置决定。如果你之后把 `vibe` 改成 `/space`，导航会自动指向 `/space`。
+这样 `site.toml` 只负责导航的显示顺序和文字，真实路径仍由 `navfolio.config.ts` 里的模块配置决定。如果你之后把 `vibe` 改成 `/space`，导航会自动指向 `/space`。
 
 普通页面和外链继续使用 `href`：
 
@@ -81,16 +90,16 @@ label = "GitHub"
 href = "https://github.com/dodolalorc/astro-navfolio"
 ```
 
-旧写法 `href = "/projects"`、`href = "/vibe"` 仍然兼容。navfolio 会识别这些默认模块路由，并在你自定义 route 时自动改写为真实路径。不过新站点更推荐使用 `module`，因为它不会把构建级 route 重复写进 TOML。
+旧写法 `href = "/projects"`、`href = "/vibe"` 仍然兼容。navfolio 会识别这些默认模块路由，并在你自定义 route 时自动改写为真实路径。不过新站点更推荐使用 `module`。
 
 ## 禁用页面
 
-如果你暂时不需要某个页面，可以把对应模块设为 `enabled: false`：
+如果暂时不需要某个页面，可以把对应模块设为 `enabled: false`：
 
 ```ts
 export default defineNavfolioConfig({
   modules: [projectsModule({ enabled: false }), vibeModule({ enabled: false })],
-  plugins: [markdownPlugin()],
+  plugins: [markdownPlugin(), pages()],
 });
 ```
 
@@ -113,16 +122,16 @@ export default defineNavfolioConfig({
   modules: [
     projectsModule(),
     vibeModule({
-      route: '/space',
+      route: "/space",
     }),
   ],
-  plugins: [markdownPlugin()],
+  plugins: [markdownPlugin(), pages()],
 });
 ```
 
 构建结果会生成 `/space`，不会再生成 `/vibe`。站点顶部导航、博客页顶部导航、搜索结果类型识别等位置会读取 resolved route，所以它们会跟随新的路径。
 
-`route` 可以写成 `space` 或 `/space`，最终都会规范化为 `/space`。不同模块不能占用同一个路由，否则构建配置会直接报错，避免出现两个页面抢同一个地址的问题。
+`route` 可以写成 `space` 或 `/space`，最终都会规范化为 `/space`。不同模块不能占用同一个路由，否则构建配置会直接报错。
 
 ## 内容和命令
 
@@ -151,17 +160,50 @@ bun run content:new -- vibe today-note
 
 `blog` 是核心文章脚手架；`project` 和 `vibe` 来自启用的 page module。如果 `projectsModule` 或 `vibeModule` 被禁用，对应命令会停止创建文件并提示先启用模块。
 
-模块可以在 `navfolio.config.ts` 里声明自己的脚手架信息：
+## 自定义页面模块
+
+自定义页面模块可以参考 `@navfolio/page-template`。最小模块通常声明 id、route、导航信息和可选的 route entrypoint：
 
 ```ts
-customModule({
-  route: '/space',
+export function customPageModule() {
+  return {
+    id: "hello",
+    route: "/hello",
+    nav: { label: "Hello", href: "/hello" },
+    collections: [],
+    routes: [
+      {
+        entrypoint: new URL("./routes/hello.astro", import.meta.url),
+        prerender: true,
+      },
+    ],
+  };
+}
+```
+
+然后在站点里注册：
+
+```ts
+import { pages, projectsModule, vibeModule } from "@navfolio/pages";
+import { customPageModule } from "@your-scope/page-hello";
+
+export default defineNavfolioConfig({
+  plugins: [markdownPlugin(), pages()],
+  modules: [projectsModule(), vibeModule(), customPageModule()],
+});
+```
+
+如果模块需要创建内容文件，也可以声明 `scaffold`：
+
+```ts
+customPageModule({
+  route: "/space",
   scaffold: {
-    command: 'space',
-    collection: 'space',
-    directory: 'src/content/space',
-    defaultExtension: 'md',
-    template: 'article',
+    command: "space",
+    collection: "space",
+    directory: "src/content/space",
+    defaultExtension: "md",
+    template: "article",
   },
 });
 ```
@@ -179,8 +221,8 @@ bun run content:new -- space hello
 建议把 page module 当成“页面级能力包”，而不是单纯的导航开关：
 
 - 只是想改页面标题、说明文案、导航文本：改 `src/config/site.toml`。
-- 想换页面路径、内容目录、脚手架命令：改 `navfolio.config.ts`。
+- 想换页面路由、内容目录、脚手架命令：改 `navfolio.config.ts`。
 - 想完全移除某个页面能力：把模块设为 `enabled: false`。
-- 想保留页面但暂时没有内容：保持模块开启，让页面展示空状态或默认文案。
+- 想新增一类页面能力：参考 `@navfolio/page-template` 拆成单独的 `@navfolio/page-*` 包，再通过 `@navfolio/pages` 协议接入。
 
 这个分工可以让内容配置保持易读，也让构建结果和你实际启用的功能保持一致。
