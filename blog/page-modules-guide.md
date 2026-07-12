@@ -1,7 +1,7 @@
 ---
-title: 'Page Module 页面能力配置指南'
-description: '了解 navfolio 如何把 Projects、Vibe 等页面能力配置为可开启、可关闭、可改路由的 page module。'
-date: '2026-07-12T16:30:00+08:00'
+title: "Page Module 页面能力配置指南"
+description: "了解 navfolio 如何把 Projects、Vibe 等页面能力配置为可开启、可关闭、可改路由的 page module。"
+date: "2026-07-12T16:30:00+08:00"
 draft: false
 showHeroImage: false
 tags:
@@ -34,10 +34,10 @@ navfolio.config.ts
 模板默认启用内置页面模块：
 
 ```ts
-import { markdownPlugin } from '@navfolio/plugin-markdown';
+import { markdownPlugin } from "@navfolio/plugin-markdown";
 
-import { projectsModule, vibeModule } from './src/modules';
-import { defineNavfolioConfig } from './src/plugins/config';
+import { projectsModule, vibeModule } from "./src/modules";
+import { defineNavfolioConfig } from "./src/plugins/config";
 
 export default defineNavfolioConfig({
   modules: [projectsModule(), vibeModule()],
@@ -47,10 +47,10 @@ export default defineNavfolioConfig({
 
 默认路由是：
 
-| 模块 | 默认路由 | 内容目录 |
-| --- | --- | --- |
+| 模块               | 默认路由    | 内容目录                |
+| ------------------ | ----------- | ----------------------- |
 | `projectsModule()` | `/projects` | `src/content/projects/` |
-| `vibeModule()` | `/vibe` | `src/content/vibe/` |
+| `vibeModule()`     | `/vibe`     | `src/content/vibe/`     |
 
 默认开启是为了让模板站点能完整展示作品集页面、碎片记录页面、博客文章和其他内置体验。你在真正落地自己的站点时，可以按需要删减。
 
@@ -60,10 +60,7 @@ export default defineNavfolioConfig({
 
 ```ts
 export default defineNavfolioConfig({
-  modules: [
-    projectsModule({ enabled: false }),
-    vibeModule({ enabled: false }),
-  ],
+  modules: [projectsModule({ enabled: false }), vibeModule({ enabled: false })],
   plugins: [markdownPlugin()],
 });
 ```
@@ -87,7 +84,7 @@ export default defineNavfolioConfig({
   modules: [
     projectsModule(),
     vibeModule({
-      route: '/space',
+      route: "/space",
     }),
   ],
   plugins: [markdownPlugin()],
