@@ -38,9 +38,12 @@ import FriendCircle from '@navfolio/mdx-components/FriendCircle.astro';
 文件只在 CI 工作目录中生成，随后被 Astro 原样复制到 `dist/friend-circle.json`。不要提交它到 Git；在本地想查看真实数据时，可手动运行：
 
 ```bash
-bunx @navfolio/friend-circle-sync \
+git clone git@github.com:navfolio/friend-circle-sync.git
+cd friend-circle-sync
+bun install
+bun run sync -- \
   --input https://example.com/friendlinks.json \
-  --output public/friend-circle.json
+  --output ../your-site/public/friend-circle.json
 ```
 
 ## 在 MDX 中展示
