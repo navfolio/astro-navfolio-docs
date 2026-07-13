@@ -20,19 +20,19 @@ sidebar:
 `@navfolio/mdx-components` 是 Navfolio 的官方内容组件库。它不介入 Markdown 编译管线：`@navfolio/plugin-markdown` 负责 Markdown、MDX、代码块、表格和图表等渲染能力；本包只提供作者在 MDX 中显式导入的内容区块。
 
 ```astro
-import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
-import LongImage from '@navfolio/mdx-components/LongImage.astro';
+import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro'; import LongImage from
+'@navfolio/mdx-components/LongImage.astro';
 ```
 
 ## 包含的组件
 
-| 组件 | 用途 |
-| --- | --- |
-| `FriendLinkCard` | 响应式友链卡片，支持数据源回退、置顶、排序和随机背景。 |
-| `FriendCircle` | 展示已同步的朋友文章池，并在客户端随机抽取文章。 |
-| `Carousel` | 带上一页、下一页控制的内容轮播。 |
-| `LongImage` | 固定可视高度、支持内部滚动的长图。 |
-| `ZoomableImage` | 可点击放大的图片预览。 |
+| 组件              | 用途                                                       |
+| ----------------- | ---------------------------------------------------------- |
+| `FriendLinkCard`  | 响应式友链卡片，支持数据源回退、置顶、排序和随机背景。     |
+| `FriendCircle`    | 展示已同步的朋友文章池，并在客户端随机抽取文章。           |
+| `Carousel`        | 带上一页、下一页控制的内容轮播。                           |
+| `LongImage`       | 固定可视高度、支持内部滚动的长图。                         |
+| `ZoomableImage`   | 可点击放大的图片预览。                                     |
 | `MermaidRenderer` | 在页面加载及 Astro View Transition 后初始化 Mermaid 图表。 |
 
 包依赖宿主项目提供 Astro、`lucide-astro` 与 Mermaid。组件样式使用 Navfolio 的主题 CSS 变量，因此能自动适配浅色和深色模式，但不会依赖你的 `src/` 文件。
@@ -46,8 +46,8 @@ bun add @navfolio/mdx-components@github:navfolio/mdx-components
 每个组件都是独立入口。只导入文章真正使用的组件，例如：
 
 ```astro
-import Carousel from '@navfolio/mdx-components/Carousel.astro';
-import ZoomableImage from '@navfolio/mdx-components/ZoomableImage.astro';
+import Carousel from '@navfolio/mdx-components/Carousel.astro'; import ZoomableImage from
+'@navfolio/mdx-components/ZoomableImage.astro';
 ```
 
 友链接口详见 [FriendLinkCard](/blog/friend-link-card/)。若需要将友链 RSS 同步为静态文章数据，请使用 [Friend Circle Sync](/blog/friend-circle-sync/)。
