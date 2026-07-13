@@ -1,0 +1,92 @@
+---
+title: '@navfolio/mdx-components：内容组件与友链朋友圈'
+description: '将 Navfolio 的 MDX 内容组件作为独立包使用，并用静态 RSS 数据构建友链朋友圈。'
+date: '2026-07-13T00:00:00+08:00'
+draft: false
+tags:
+  - MDX
+  - FriendLink
+  - RSS
+  - Components
+categories:
+  - 站点建设
+series:
+  - Navfolio 模块手册
+sidebar:
+  enable: true
+  toc: true
+  relatedPosts: true
+---
+
+import FriendCircle from '@navfolio/mdx-components/FriendCircle.astro';
+import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
+
+`@navfolio/mdx-components` 是 Navfolio 的官方内容组件库。它和 `@navfolio/plugin-markdown` 的职责不同：Markdown 插件处理编译和渲染能力，组件库提供可以直接放进 MDX 的内容区块。
+
+```ts
+import FriendCircle from '@navfolio/mdx-components/FriendCircle.astro';
+import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
+```
+
+## 友链卡片
+
+`FriendLinkCard` 默认在宽屏展示四列，并会在较窄的屏幕自然收为三、两、一列。`bio` 固定最多两行，因此同一行卡片保持整齐。指定 `backgroundImage` 时会使用该图；未指定时会将头像作为低透明度背景。
+
+```astro
+<FriendLinkCard
+  columns={4}
+  randomBackground={true}
+  shuffle={true}
+  items={[
+    {
+      name: 'Navfolio',
+      url: 'https://astro.navfolio.site/',
+      bio: 'An Astro-first personal publishing starter.',
+      avatar: 'https://avatars.githubusercontent.com/u/114007020?v=4',
+      sticky: 10,
+      rss: 'https://astro.navfolio.site/rss.xml',
+    },
+  ]}
+/>
+```
+
+`sticky` 可以是布尔值或数字。数值更大的友链排在更前面；开启 `shuffle` 后，只有非置顶友链会在每次构建时随机重排。`randomBackground` 的颜色在服务端渲染时生成，刷新页面会得到新组合，不会出现客户端延迟上色。
+
+当同时提供 `src` 和 `items` 时，默认优先读取 `src`。远程 JSON 无法加载或解析时，组件会回退到 `items`。使用 `source="src"` 强制只读取远程数据，使用 `source="items"` 强制忽略远程数据。
+
+## 友链朋友圈
+
+每条友链可选填 `rss`。`FriendCircle` 会在构建时读取这些 RSS/Atom 地址，输出静态文章列表；点击右上角刷新按钮只会从已经构建的数据中随机抽取十篇，不会在浏览器内发起跨站请求。
+
+<FriendCircle
+  limit={10}
+  items={[
+    {
+      name: 'Navfolio',
+      url: 'https://astro.navfolio.site/',
+      avatar: 'https://avatars.githubusercontent.com/u/114007020?v=4',
+    },
+  ]}
+  posts={[
+    {
+      title: 'Designing portable MDX components',
+      url: 'https://astro.navfolio.site/blog/friend-link-card/',
+      date: '2026-07-13',
+      tags: ['MDX', 'Astro'],
+      author: 'Navfolio',
+      authorUrl: 'https://astro.navfolio.site/',
+      avatar: 'https://avatars.githubusercontent.com/u/114007020?v=4',
+    },
+  ]}
+/>
+
+## 推荐的数据方案
+
+生产站点推荐用 GitHub Actions 定时抓取 RSS，再将结果提交为 `public/friend-circle.json`。页面使用 `feedSrc="/friend-circle.json"`，构建过程就只读取本地静态文件，稳定且不会因为单个友链超时而让部署失败。
+
+1. Action 每 4 至 6 小时运行一次，读取同一份友链 JSON。
+2. 仅请求带 `rss` 的链接，记录最后一次成功内容和失败时间；失败时复用旧缓存。
+3. 将标准化文章数组写入 `public/friend-circle.json` 并提交到仓库。
+4. 在 MDX 中将 `FriendCircle` 的 `feedSrc` 指向该文件。
+
+这与 Friend-Circle-Lite 的静态输出思路一致，但不需要独立服务。需要即时抓取、订阅推送或大规模缓存时，再将同一 JSON 端点替换为 Vercel Function 或自部署服务即可，组件接口无需改变。
