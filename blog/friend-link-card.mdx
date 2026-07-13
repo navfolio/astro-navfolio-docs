@@ -84,11 +84,37 @@ import FriendLinkCard from '../../components/mdx/FriendLinkCard.astro';
   ]}
 />
 
+## 远程 JSON 示例
+
+如果你希望把友链配置放在远程 JSON 中，可以改用 `src` 属性。远程 JSON 需要是一个数组，字段结构和 `items` 数组项保持一致。
+
+```json
+[
+  {
+    "name": "Astro",
+    "url": "https://astro.build/",
+    "bio": "Static site framework for content-driven websites",
+    "avatar": "https://astro.build/assets/press/astro-icon-light-gradient.svg"
+  }
+]
+```
+
+在 MDX 中直接传入 JSON 地址：
+
+```mdx
+<FriendLinkCard src="https://example.com/friends.json" />
+```
+
+静态构建时，远程 JSON 会在构建阶段读取；如果 JSON 内容更新，需要重新构建站点才会反映到页面中。
+
 ## 可用属性
 
 组件支持以下属性：
 
-- items: 友链数组（必填），会按照数组顺序渲染为列表
+- items: 本地友链数组，会按照数组顺序渲染为列表
+- src: 远程 JSON 地址，适合把友链配置维护在外部数据源中
+
+如果同时提供 `items` 和 `src`，组件会优先使用 `items`，不会请求远程 JSON。
 
 每个 `items` 数组项支持以下字段：
 
