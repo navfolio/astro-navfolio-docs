@@ -1,15 +1,15 @@
 ---
-title: '使用 MDX 完成友链卡片的展示'
-description: '在文章中优雅展示友链信息的轻量卡片组件'
+title: 'FriendLinkCard：可组合的友链卡片'
+description: '使用 @navfolio/mdx-components 在 MDX 中展示可排序、可随机着色的响应式友链卡片。'
 date: '2026-05-19T00:00:00+08:00'
 draft: false
 heroImage: '/src/assets/figure/sample-bg.png'
 showHeroImage: true
 tags:
-  - 'MDX'
-  - 'Astro'
-  - 'Components'
-  - 'FriendLink'
+  - MDX
+  - Astro
+  - Components
+  - FriendLink
 categories:
   - 站点建设
 series:
@@ -21,113 +21,67 @@ sidebar:
   relatedPosts: true
 ---
 
-这篇文章介绍如何在 MDX 内容中使用 FriendLinkCard 组件，快速展示站点名称、链接、头像和简介。
+import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
 
-## 为什么使用友链卡片？
+`FriendLinkCard` 用于在 MDX 内容中展示友链。卡片会根据自身容器宽度而不是浏览器宽度决定列数：宽正文可以四列，带目录的文章正文通常会自然收为三列，再依次变为两列和一列。
 
-相比纯文本链接，友链卡片可以提供更清晰的结构：
+## 基础用法
 
-- 一眼看到站点名称与定位
-- 支持头像和背景图，识别度更高
-- 保持页面信息密度与阅读节奏
-
-如果你在做个人博客、数字花园或资源页，这个组件很适合用于友情链接区块。
-
-## 组件导入
-
-在 MDX 文件中先导入组件：
-
-```typescript
+```astro
 import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
 ```
 
-import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
-
-## 基础示例
-
-下面是一个使用数组批量渲染友链列表的示例。组件会按照数组顺序展示，并在桌面宽度下一行排列两个卡片。
-
 <FriendLinkCard
   items={[
-    {
-      name: 'Navfolio',
-      url: 'https://astro.navfolio.site/',
-      bio: 'AI-native personal blog and digital garden',
-      avatar: '/images/logo-cat.png',
-    },
     {
       name: 'Astro',
       url: 'https://astro.build/',
-      bio: 'Static site framework for content-driven websites',
+      bio: 'The web framework for content-driven websites.',
+      avatar: 'https://astro.build/assets/press/astro-icon-light-gradient.svg',
     },
-  ]}
-/>
-
-## 带背景图示例
-
-如果你希望某一张卡片更有视觉识别，可以在对应数组项里加上 `backgroundImage`。
-
-<FriendLinkCard
-  items={[
     {
-      name: 'Navfolio',
-      url: 'https://astro.navfolio.site/',
-      bio: 'AI-native personal blog and digital garden',
-      avatar: '/images/logo-cat.png',
-      backgroundImage: '/images/sample-bg.png',
+      name: 'GitHub',
+      url: 'https://github.com/',
+      bio: 'Collaborative software development and source hosting.',
+      avatar: 'https://github.githubassets.com/favicons/favicon.svg',
     },
     {
       name: 'Bun',
       url: 'https://bun.com/',
-      bio: 'Fast JavaScript runtime and package manager',
+      bio: 'Fast JavaScript runtime and package manager.',
+      avatar: 'https://bun.com/favicon.ico',
     },
   ]}
 />
 
-## 远程 JSON 示例
+`bio` 最多显示两行并自动省略，卡片维持稳定高度。没有 `backgroundImage` 时，头像会作为淡化背景；没有头像时，名称首字母会成为圆形占位头像。
 
-如果你希望把友链配置放在远程 JSON 中，可以改用 `src` 属性。远程 JSON 需要是一个数组，字段结构和 `items` 数组项保持一致。
+## 数据来源与排序
 
-```json
-[
-  {
-    "name": "Astro",
-    "url": "https://astro.build/",
-    "bio": "Static site framework for content-driven websites",
-    "avatar": "https://astro.build/assets/press/astro-icon-light-gradient.svg"
-  }
-]
+```astro
+<FriendLinkCard
+  columns={4}
+  randomBackground={true}
+  shuffle={true}
+  src="https://example.com/friends.json"
+  items={[{ name: 'Fallback', url: 'https://example.com/' }]}
+/>
 ```
 
-在 MDX 中直接传入 JSON 地址：
+默认 `source="auto"`：优先加载 `src`，远程 JSON 请求或解析失败时回退到 `items`。`source="src"` 强制只使用远程来源；`source="items"` 强制只使用内联数据。
 
-```mdx
-<FriendLinkCard src="https://example.com/friends.json" />
-```
+`columns` 是容器足够宽时的最大列数，默认 `4`。实际列数会按卡片列表自身宽度调整。`randomBackground` 会忽略所有 `backgroundImage`，在服务端为每张卡片生成半透明随机背景色，因此首次绘制不会闪烁。`shuffle` 只打乱未置顶的项目。
 
-静态构建时，远程 JSON 会在构建阶段读取；如果 JSON 内容更新，需要重新构建站点才会反映到页面中。
+## 友链字段
 
-## 可用属性
+| 字段 | 说明 |
+| --- | --- |
+| `name` | 必填，站点名称。 |
+| `url` | 必填，跳转地址。 |
+| `bio` | 可选，最多显示两行。 |
+| `avatar` | 可选，圆形头像；也会作为无背景图时的淡化背景。 |
+| `backgroundImage` | 可选，指定卡片背景图。 |
+| `rss` | 可选，友链朋友圈同步器使用的 RSS 或 Atom 地址。 |
+| `sticky` | 可选，`true` 或正数；数值越大，越靠前。 |
 
-组件支持以下属性：
-
-- items: 本地友链数组，会按照数组顺序渲染为列表
-- src: 远程 JSON 地址，适合把友链配置维护在外部数据源中
-
-如果同时提供 `items` 和 `src`，组件会优先使用 `items`，不会请求远程 JSON。
-
-每个 `items` 数组项支持以下字段：
-
-- name: 友链名称（必填）
-- url: 跳转链接（必填）
-- bio: 简介文案（可选）
-- avatar: 头像地址（可选）
-- backgroundImage: 背景图地址（可选）
-
-当未提供 avatar 时，组件会自动使用名称首字母作为头像占位。
-
-## 小提示
-
-- 建议 bio 保持简短，避免卡片高度过大
-- 外链会在新标签页打开，并带有安全属性
-- 背景图建议选择对比清晰、细节不过度复杂的图片
+友链朋友圈的 RSS 抓取与部署请见 [Friend Circle Sync](/blog/friend-circle-sync/)。
