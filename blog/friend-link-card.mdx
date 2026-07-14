@@ -64,7 +64,8 @@ import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
       url: 'https://astro.build/',
       bio: 'A content-driven web framework.',
       avatar: 'https://astro.build/assets/press/astro-icon-light-gradient.svg',
-      backgroundImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80',
+      backgroundImage:
+        'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80',
     },
     {
       name: 'GitHub',
@@ -90,23 +91,44 @@ import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
   randomBackground={true}
   shuffle={true}
   items={[
-    { name: 'Astro', url: 'https://astro.build/', bio: 'Content-driven websites.', avatar: 'https://astro.build/assets/press/astro-icon-light-gradient.svg', sticky: 10 },
-    { name: 'GitHub', url: 'https://github.com/', bio: 'Collaborative development.', avatar: 'https://github.githubassets.com/favicons/favicon.svg' },
-    { name: 'Bun', url: 'https://bun.com/', bio: 'JavaScript runtime and toolkit.', avatar: 'https://bun.com/favicon.ico' },
-    { name: 'MDN', url: 'https://developer.mozilla.org/', bio: 'Web platform documentation.', avatar: 'https://developer.mozilla.org/favicon-48x48.cbbd161b.png' },
+    {
+      name: 'Astro',
+      url: 'https://astro.build/',
+      bio: 'Content-driven websites.',
+      avatar: 'https://astro.build/assets/press/astro-icon-light-gradient.svg',
+      sticky: 10,
+    },
+    {
+      name: 'GitHub',
+      url: 'https://github.com/',
+      bio: 'Collaborative development.',
+      avatar: 'https://github.githubassets.com/favicons/favicon.svg',
+    },
+    {
+      name: 'Bun',
+      url: 'https://bun.com/',
+      bio: 'JavaScript runtime and toolkit.',
+      avatar: 'https://bun.com/favicon.ico',
+    },
+    {
+      name: 'MDN',
+      url: 'https://developer.mozilla.org/',
+      bio: 'Web platform documentation.',
+      avatar: 'https://developer.mozilla.org/favicon-48x48.cbbd161b.png',
+    },
   ]}
 />
 
 ## 组件参数
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| `items` | `FriendLinkItem[]` | - | 内联友链数据。|
-| `src` | `string` | - | 远程或本地 JSON 数据地址。|
-| `source` | `'auto' \| 'src' \| 'items'` | `'auto'` | 数据源策略。`auto` 优先读取 `src`，失败时回退到 `items`。|
-| `columns` | `1 \| 2 \| 3 \| 4` | `4` | 宽容器下的最大列数；窄容器和移动端仍会自动收列。|
-| `randomBackground` | `boolean` | `false` | 使用每次渲染随机生成的半透明背景色，并忽略 `backgroundImage`。|
-| `shuffle` | `boolean` | `false` | 随机未置顶友链的顺序。|
+| 参数               | 类型                         | 默认值   | 说明                                                           |
+| ------------------ | ---------------------------- | -------- | -------------------------------------------------------------- |
+| `items`            | `FriendLinkItem[]`           | -        | 内联友链数据。                                                 |
+| `src`              | `string`                     | -        | 远程或本地 JSON 数据地址。                                     |
+| `source`           | `'auto' \| 'src' \| 'items'` | `'auto'` | 数据源策略。`auto` 优先读取 `src`，失败时回退到 `items`。      |
+| `columns`          | `1 \| 2 \| 3 \| 4`           | `4`      | 宽容器下的最大列数；窄容器和移动端仍会自动收列。               |
+| `randomBackground` | `boolean`                    | `false`  | 使用每次渲染随机生成的半透明背景色，并忽略 `backgroundImage`。 |
+| `shuffle`          | `boolean`                    | `false`  | 随机未置顶友链的顺序。                                         |
 
 ```astro
 import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
@@ -122,14 +144,14 @@ import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro';
 
 ## 友链数据字段
 
-| 字段 | 说明 |
-| --- | --- |
-| `name` | 必填，站点名称。|
-| `url` | 必填，站点主页地址。|
-| `bio` | 可选，最多显示两行。|
-| `avatar` | 可选，圆形头像；没有 `backgroundImage` 时也会作为淡化背景。|
-| `backgroundImage` | 可选，指定卡片背景图；`randomBackground` 开启时会被忽略。|
-| `rss` | 可选，供友链朋友圈同步器读取的 RSS 或 Atom 地址。|
-| `sticky` | 可选，`true` 或正数；数值越大排序越靠前。|
+| 字段              | 说明                                                        |
+| ----------------- | ----------------------------------------------------------- |
+| `name`            | 必填，站点名称。                                            |
+| `url`             | 必填，站点主页地址。                                        |
+| `bio`             | 可选，最多显示两行。                                        |
+| `avatar`          | 可选，圆形头像；没有 `backgroundImage` 时也会作为淡化背景。 |
+| `backgroundImage` | 可选，指定卡片背景图；`randomBackground` 开启时会被忽略。   |
+| `rss`             | 可选，供友链朋友圈同步器读取的 RSS 或 Atom 地址。           |
+| `sticky`          | 可选，`true` 或正数；数值越大排序越靠前。                   |
 
 友链朋友圈的 RSS 抓取与部署请参阅 [Friend Circle Sync](/blog/friend-circle-sync/)。
