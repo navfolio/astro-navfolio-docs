@@ -10,9 +10,9 @@ tags:
   - Search
   - Pagefind
 categories:
-  - 站点建设
+  - 功能模块
 series:
-  - Navfolio 模块手册
+  - 功能模块
 comments: true
 sidebar:
   enable: true

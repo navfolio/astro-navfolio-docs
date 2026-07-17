@@ -9,9 +9,9 @@ tags:
   - 'Markdown'
   - '教程'
 categories:
-  - 内容管理
+  - 内容创作
 series:
-  - Navfolio 模块手册
+  - 内容创作
 comments: true
 sidebar:
   enable: true

@@ -10,9 +10,9 @@ tags:
   - Fonts
   - Typography
 categories:
-  - 站点建设
+  - 主站配置
 series:
-  - Navfolio 模块手册
+  - 主站配置
 comments: true
 sidebar:
   enable: true

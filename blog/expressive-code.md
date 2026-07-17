@@ -6,9 +6,9 @@ draft: false
 showHeroImage: false
 tags: []
 categories:
-  - 站点建设
+  - 插件与扩展
 series:
-  - Navfolio 模块手册
+  - 插件与扩展
 comments: true
 sidebar:
   enable: true
