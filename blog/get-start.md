@@ -6,8 +6,10 @@ draft: false
 sticky: true
 showHeroImage: false
 tags: []
-categories: []
-series: []
+categories:
+  - 入门
+series:
+  - 新手入门
 comments: true
 sidebar:
   enable: true
