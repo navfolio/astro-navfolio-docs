@@ -21,11 +21,11 @@ sidebar:
 
 navfolio 默认展示完整的模板能力，所以 `Projects` 和 `Vibe` 页面都是开启的。真实站点可以把这些页面能力当成 page module：需要就保留，不需要就关闭，想换路由也可以在构建配置里调整。
 
-page module 现在由 `@navfolio/pages` 统一接入：
+page module 通过 `@navfolio/pages` 协议统一接入，但具体页面包按需安装：
 
-- `@navfolio/pages`：推荐入口，导出 page module 类型、配置解析工具、`pages()` 插件标记，并聚合内置模块。
+- `@navfolio/pages`：导出 page module 类型、配置解析工具、`pages()` 插件标记和默认 Projects 模块。
 - `@navfolio/page-projects`：导出 `projectsModule()`。
-- `@navfolio/page-vibe`：导出 `vibeModule()`。
+- `@navfolio/page-vibe`：可选包，导出 `vibeModule()`，并拥有 Vibe 的 Astro 路由、页面 UI 和交互逻辑。
 - `@navfolio/page-template`：给贡献者参考的自定义页面模块模板。
 
 ## 配置入口
@@ -42,7 +42,8 @@ page module 有两层配置入口：
 模板默认启用内置页面模块：
 
 ```ts
-import { pages, projectsModule, vibeModule } from '@navfolio/pages';
+import { vibeModule } from '@navfolio/page-vibe';
+import { pages, projectsModule } from '@navfolio/pages';
 import { markdownPlugin } from '@navfolio/plugin-markdown';
 
 import { defineNavfolioConfig } from './src/plugins/config';
@@ -61,6 +62,8 @@ export default defineNavfolioConfig({
 | `vibeModule()`     | `/vibe`     | `src/content/vibe/`     |
 
 默认开启是为了让模板站点完整展示作品集页面、碎片记录页面、博客文章和其他内置体验。你在落地自己的站点时，可以按需要删减。
+
+这里的“默认开启”是 starter 的显式选择，不代表 `@navfolio/pages` 会强制安装 Vibe。新站点只有安装 `@navfolio/page-vibe` 并注册 `vibeModule()`，才会包含 Vibe 页面代码。
 
 ## 快速配置导航
 
@@ -112,6 +115,8 @@ export default defineNavfolioConfig({
 - 对应内容脚手架命令会给出禁用提示。
 
 也就是说，禁用 `vibeModule()` 后，`/vibe` 不会存在，`src/content/vibe/` 也不会作为 Astro content collection 参与构建。
+
+如果确定不再需要 Vibe，可以直接从 `modules` 删除 `vibeModule()`，再移除 `@navfolio/page-vibe` 依赖。这样依赖安装中也不会包含 Vibe 页面 UI；这是完整的包级按需使用。
 
 ## 自定义路由
 
@@ -184,7 +189,8 @@ export function customPageModule() {
 然后在站点里注册：
 
 ```ts
-import { pages, projectsModule, vibeModule } from '@navfolio/pages';
+import { vibeModule } from '@navfolio/page-vibe';
+import { pages, projectsModule } from '@navfolio/pages';
 import { customPageModule } from '@your-scope/page-hello';
 
 export default defineNavfolioConfig({
@@ -222,7 +228,8 @@ bun run content:new -- space hello
 
 - 只是想改页面标题、说明文案、导航文本：改 `src/config/site.toml`。
 - 想换页面路由、内容目录、脚手架命令：改 `navfolio.config.ts`。
-- 想完全移除某个页面能力：把模块设为 `enabled: false`。
+- 想暂时关闭某个页面能力：把模块设为 `enabled: false`。
+- 想彻底移除 Vibe 页面代码：删除模块注册并卸载 `@navfolio/page-vibe`。
 - 想新增一类页面能力：参考 `@navfolio/page-template` 拆成单独的 `@navfolio/page-*` 包，再通过 `@navfolio/pages` 协议接入。
 
 这个分工可以让内容配置保持易读，也让构建结果和你实际启用的功能保持一致。
