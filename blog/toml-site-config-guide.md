@@ -88,7 +88,7 @@ lang = "en"
 ```
 
 `lang` currently supports `en`, `zh-CN`, and `zh-TW`. Aliases such as `zh-Hans` resolve to `zh-CN`, while `zh-Hant`, `zh-HK`, and `zh-MO` resolve to `zh-TW`. Unknown values fall back to English.
-Native UI strings live in `src/i18n/*.json`, while `src/utils/ui-text.ts` keeps the runtime lookup and template formatting logic.
+Core UI strings live in `src/i18n/*.json`, while page modules contribute their own catalogs through `@navfolio/core`. `src/utils/ui-text.ts` aggregates the enabled catalogs and keeps compatibility helpers for existing components.
 
 ## 个人资料
 
