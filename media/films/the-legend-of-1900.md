@@ -4,7 +4,7 @@ creator: 'Giuseppe Tornatore · 1998'
 type: film
 status: completed
 completedAt: 2026-07-20
-cover: 'https://image.tmdb.org/t/p/w780/7M0j1B1WQY2iVoHISB4nLrLFvY5.jpg'
+cover: 'https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2914698334.webp'
 coverAspect: portrait
 rating: 5
 tags: [剧情, 音乐, 海洋]

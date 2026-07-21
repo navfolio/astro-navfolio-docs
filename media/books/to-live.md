@@ -4,7 +4,7 @@ creator: '余华 · 1993'
 type: book
 status: completed
 completedAt: 2026-07-20
-cover: 'https://covers.openlibrary.org/b/isbn/9787506365437-L.jpg'
+cover: 'https://img9.doubanio.com/view/subject/l/public/s29869926.jpg'
 rating: 5
 review: true
 tags: [中国当代文学, 长篇小说]

@@ -4,7 +4,7 @@ creator: 'Tara Westover · 2018'
 type: book
 status: completed
 completedAt: 2026-07-20
-cover: 'https://covers.openlibrary.org/b/isbn/9780399590504-L.jpg'
+cover: 'https://img9.doubanio.com/view/subject/s/public/s33492346.jpg'
 rating: 5
 tags: [回忆录, 教育, 成长]
 draft: false
