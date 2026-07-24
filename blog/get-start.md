@@ -37,10 +37,22 @@ curl -fsSL https://bun.sh/install | bash
 安装完成后，重启终端并运行 `bun --version` 来验证是否安装成功。
 
 - **Git**：用于克隆仓库。
-- `fonttools`  和  `brotli`  工具。（用于字体子集化）
+- **Python 3**、`fonttools` 和 `brotli`：生产构建的硬依赖，用于生成中日韩 UI 字体子集。`bun run build` 会自动运行该步骤；如果缺少这些工具，构建会失败。
+
+建议把 Python 工具安装在项目根目录的虚拟环境中。无需手动激活虚拟环境，Navfolio 会自动优先使用 `.venv`：
+
+macOS / Linux：
 
 ```bash
-python -m pip install --user fonttools brotli
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip fonttools brotli
+```
+
+Windows（PowerShell 或命令提示符）：
+
+```powershell
+py -3 -m venv .venv
+.venv\Scripts\python.exe -m pip install --upgrade pip fonttools brotli
 ```
 
 ## 2. 获取项目与安装依赖
@@ -59,6 +71,14 @@ cd astro-navfolio
 ```bash
 bun install
 ```
+
+3. **验证字体子集化环境**：
+
+```bash
+bun run fonts:ui
+```
+
+该命令会生成 `public/fonts/*-ui-subset.woff2`。之后新增或修改会显示在 UI、标题或轻量内容中的中日韩文字时，正常执行 `bun run build` 即会自动更新这个文件。
 
 ## 3. 本地开发与预览
 
@@ -81,7 +101,8 @@ bun run preview    # 在本地启动一个服务来预览构建后的站点
 
 **注意**
 
-- `bun run build` 命令包含构建 UI 或固定页面中的中文字体子集化的程序，如果在 dev 环境中发现字体使用异常，可以先运行`bun run build`后，再运行`bun run dev`
+- `bun run build` 会先生成 UI 和轻量内容中的中日韩字体子集，再构建站点；因此本机和 CI 都必须配置 Python 3、FontTools 与 Brotli。
+- 如果在开发环境中发现字体使用异常，可以先运行 `bun run build`，再运行 `bun run dev`。
 - `bun run dev`默认会以`src/content/`为文章的数据源
 
 ## 4. 个性化你的站点
