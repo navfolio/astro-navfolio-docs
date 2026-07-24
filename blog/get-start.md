@@ -125,8 +125,11 @@ bun run preview    # 在本地启动一个服务来预览构建后的站点
 
     - **创建新内容**：项目提供了便捷的脚本命令。
       - 新建博客：`bun run post:new my-first-post`
+      - 新建项目：`bun run project:new my-project`
       - 新建 Vibe 短记录：`bun run vibe:new today-mood`
-      - （生成的 `.md` 或 `.mdx` 文件会出现在 `src/content/blog/` 或 `src/content/vibe/` 目录下）
+      - 新建书影音记录：`bun run media:new my-favourite-book`
+      - 命令统一为 `bun run <页面简称>:new <文件名> [可选输出目录]`；文件名也会成为初始 `title`。
+      - （生成的 `.md` 或 `.mdx` 文件默认会出现在对应的 `src/content/` 子目录下）
     - **删除或修改示例内容**：你可以直接编辑或删除 `src/content/blog/`、`src/content/projects/` 和 `src/content/vibe/` 目录下的示例文件。
 
 4.  **替换静态资源**：

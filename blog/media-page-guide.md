@@ -73,8 +73,13 @@ src/content/media/
 可以用命令生成草稿：
 
 ```bash
-bun run content:new -- media my-favourite-book
+bun run media:new my-favourite-book
+bun run media:new my-favourite-book src/content/drafts
 ```
+
+第一个参数同时作为文件名和初始 `title`；第二个目录参数可省略，省略时使用
+`src/content/media/`。默认 frontmatter 与正文来自
+`@navfolio/page-media/templates/default.md`。
 
 每个条目是 Markdown 或 MDX 文件。最小可展示条目如下：
 

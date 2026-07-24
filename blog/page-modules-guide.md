@@ -151,21 +151,26 @@ src/content/media/
 常用脚手架命令：
 
 ```bash
-bun run post:new -- my-post
-bun run project:new -- my-project
-bun run vibe:new -- 2026-07-12-small-note
+bun run post:new my-post
+bun run project:new my-project
+bun run vibe:new today-note
+bun run media:new my-favourite-album
 ```
 
-也可以使用通用入口：
+所有页面内容脚本都使用同一种格式：
 
 ```bash
-bun run content:new -- blog my-post
-bun run content:new -- project my-project
-bun run content:new -- vibe today-note
-bun run content:new -- media my-favourite-album
+bun run <页面简称>:new <文件名> [可选输出目录]
+bun run post:new private-draft src/content/drafts
 ```
 
-`blog` 是核心文章脚手架；`project`、`vibe` 与 `media` 来自启用的 page module。如果对应模块被禁用，对应命令会停止创建文件并提示先启用模块。
+文件名经安全清理后同时作为输出 basename 和初始 `title`。未指定输出目录时，
+`post` 使用 `src/content/blog/`，其余命令使用对应 page module 的默认目录。
+`--md`、`--mdx` 或文件名扩展名可以覆盖默认扩展名。旧的 `content:new` 通用入口
+仍可兼容已有工作流，但新增页面应注册并文档化自己的 `<页面简称>:new` 脚本。
+
+`post` 是核心文章脚手架；`project`、`vibe` 与 `media` 来自启用的 page module。
+如果对应模块被禁用，对应命令会停止创建文件并提示先启用模块。
 
 ### Projects 卡片元数据
 
@@ -200,10 +205,17 @@ export function customPageModule() {
     collections: [],
     routes: [
       {
-        entrypoint: new URL('./routes/hello.astro', import.meta.url),
+        entrypoint: new URL('../routes/hello.astro', import.meta.url),
         prerender: true,
       },
     ],
+    scaffold: {
+      command: 'hello',
+      collection: 'hello',
+      directory: 'src/content/hello',
+      defaultExtension: 'md',
+      template: new URL('../templates/default.md', import.meta.url),
+    },
   };
 }
 ```
@@ -223,28 +235,40 @@ export default defineNavfolioConfig({
 });
 ```
 
-如果模块需要创建内容文件，也可以声明 `scaffold`：
+如果模块需要创建内容文件，就在包内增加 `templates/default.md`。默认 frontmatter
+和正文直接写在这个 Markdown 文件中：
 
-```ts
-customPageModule({
-  route: '/space',
-  scaffold: {
-    command: 'space',
-    collection: 'space',
-    directory: 'src/content/space',
-    defaultExtension: 'md',
-    template: 'article',
-  },
-});
+```md
+---
+title: {{ title | yaml }}
+date: {{ isoDate | yaml }}
+draft: true
+---
+
+# {{ title }}
 ```
 
-之后就可以使用：
+模板支持 `{{ title }}`、`{{ slug }}`、`{{ isoDate }}` 与 `{{ date }}`；
+`| yaml` 会生成 YAML 安全的字符串。把这个目录加入包的 `files`，并在宿主
+`package.json` 中把 scaffold 的 `command` 注册成标准脚本：
+
+```json
+{
+  "scripts": {
+    "hello:new": "bun scripts/new-content.ts hello"
+  }
+}
+```
+
+之后可以使用模块默认目录，或指定另一个输出目录：
 
 ```bash
-bun run content:new -- space hello
+bun run hello:new first-note
+bun run hello:new first-note src/content/drafts
 ```
 
-内置模板支持 `article`、`project` 和 `vibe`。如果自定义模块需要完全不同的 frontmatter 或正文，也可以在模块的 scaffold 配置中提供自定义模板函数。
+每个 page package 都拥有自己的默认 Markdown 模板，不再由宿主脚本通过
+`article`、`project`、`vibe` 分支硬编码 frontmatter。
 
 ## 适合怎么取舍
 

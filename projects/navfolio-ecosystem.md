@@ -49,7 +49,10 @@ The concrete modules remain independent:
 - `@navfolio/page-media` creates the anchor-linked books, films, and music shelf, review routes, and media scaffold.
 - `@navfolio/page-template` is the smallest starting point for a custom injected Astro page.
 
-Enable only the modules a site needs in `navfolio.config.ts`; their routes, navigation targets, collections, and `content:new` commands follow that configuration.
+Enable only the modules a site needs in `navfolio.config.ts`; their routes,
+navigation targets, collections, and `<page>:new` scaffold commands follow that
+configuration. Each content-producing module publishes its own editable
+`templates/default.md` instead of embedding frontmatter in the host.
 
 ## Independent build-time workflows
 
