@@ -202,7 +202,7 @@ export function customPageModule() {
     id: 'hello',
     route: '/hello',
     nav: { label: 'Hello', href: '/hello' },
-    collections: [],
+    collections: ['hello'],
     routes: [
       {
         entrypoint: new URL('../routes/hello.astro', import.meta.url),
