@@ -1,7 +1,7 @@
 ---
-title: "Page Module 页面能力配置指南"
-description: "了解 navfolio 如何用 @navfolio/pages 统一管理 Projects、Vibe、书影音等可开启、可关闭、可改路由的页面模块。"
-date: "2026-07-12T16:30:00+08:00"
+title: 'Page Module 页面能力配置指南'
+description: '了解 navfolio 如何用 @navfolio/pages 统一管理 Projects、Vibe、书影音等可开启、可关闭、可改路由的页面模块。'
+date: '2026-07-12T16:30:00+08:00'
 draft: false
 showHeroImage: false
 tags:
@@ -43,15 +43,10 @@ page module 有两层配置入口：
 模板默认启用内置页面模块：
 
 ```ts
-import {
-  mediaModule,
-  pages,
-  projectsModule,
-  vibeModule,
-} from "@navfolio/pages";
-import { markdownPlugin } from "@navfolio/plugin-markdown";
+import { mediaModule, pages, projectsModule, vibeModule } from '@navfolio/pages';
+import { markdownPlugin } from '@navfolio/plugin-markdown';
 
-import { defineNavfolioConfig } from "./src/plugins/config";
+import { defineNavfolioConfig } from './src/plugins/config';
 
 export default defineNavfolioConfig({
   modules: [projectsModule(), vibeModule(), mediaModule()],
@@ -134,11 +129,7 @@ export default defineNavfolioConfig({
 
 ```ts
 export default defineNavfolioConfig({
-  modules: [
-    projectsModule(),
-    vibeModule({ route: "/space" }),
-    mediaModule({ route: "/shelf" }),
-  ],
+  modules: [projectsModule(), vibeModule({ route: '/space' }), mediaModule({ route: '/shelf' })],
   plugins: [markdownPlugin(), pages()],
 });
 ```
@@ -187,13 +178,13 @@ Projects 条目默认使用 GitHub 图标。可在项目文章的 frontmatter �
 
 ```yaml
 icon: rocket # github | box | code-2 | database | file-code-2 | globe-2 | layers-3 | palette | rocket | sparkles | terminal | wand-sparkles
-iconColor: "#e86a33" # CSS 颜色、十六进制颜色或 var(--token)
+iconColor: '#e86a33' # CSS 颜色、十六进制颜色或 var(--token)
 authors:
-  - name: "Maggie Appleton"
-    url: "https://maggieappleton.com"
+  - name: 'Maggie Appleton'
+    url: 'https://maggieappleton.com'
 links:
-  - label: "GitHub"
-    href: "https://github.com/navfolio/astro-navfolio"
+  - label: 'GitHub'
+    href: 'https://github.com/navfolio/astro-navfolio'
     kind: github # github | website | platform | docs | demo
 ```
 
@@ -208,22 +199,22 @@ Projects 也支持与 Blog 相同的 `sticky` 语义：`sticky: true` 以默认�
 ```ts
 export function customPageModule() {
   return {
-    id: "hello",
-    route: "/hello",
-    nav: { label: "Hello", href: "/hello" },
+    id: 'hello',
+    route: '/hello',
+    nav: { label: 'Hello', href: '/hello' },
     collections: [],
     routes: [
       {
-        entrypoint: new URL("../routes/hello.astro", import.meta.url),
+        entrypoint: new URL('../routes/hello.astro', import.meta.url),
         prerender: true,
       },
     ],
     scaffold: {
-      command: "hello",
-      collection: "hello",
-      directory: "src/content/hello",
-      defaultExtension: "md",
-      template: new URL("../templates/default.md", import.meta.url),
+      command: 'hello',
+      collection: 'hello',
+      directory: 'src/content/hello',
+      defaultExtension: 'md',
+      template: new URL('../templates/default.md', import.meta.url),
     },
   };
 }
@@ -234,9 +225,9 @@ export function customPageModule() {
 然后在站点里注册：
 
 ```ts
-import { vibeModule } from "@navfolio/page-vibe";
-import { pages, projectsModule } from "@navfolio/pages";
-import { customPageModule } from "@your-scope/page-hello";
+import { vibeModule } from '@navfolio/page-vibe';
+import { pages, projectsModule } from '@navfolio/pages';
+import { customPageModule } from '@your-scope/page-hello';
 
 export default defineNavfolioConfig({
   plugins: [markdownPlugin(), pages()],
