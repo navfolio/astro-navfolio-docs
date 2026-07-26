@@ -1,0 +1,155 @@
+---
+title: 'FriendLinkApplication：从表单生成友链申请'
+description: '在 MDX 中收集友链资料、复制标准 JSON，并跳转到预填的 GitHub Issue 或 Issue Form。'
+date: '2026-07-26T00:00:00+08:00'
+draft: false
+tags:
+  - MDX
+  - Astro
+  - Components
+  - FriendLink
+  - GitHub Actions
+categories:
+  - 插件与扩展
+series:
+  - 插件与扩展
+sidebar:
+  enable: true
+  toc: true
+  relatedPosts: true
+---
+
+import FriendLinkApplication from '@navfolio/mdx-components/FriendLinkApplication.astro';
+
+`FriendLinkApplication` 把友链申请拆成两个并排区域：左侧填写站点资料，右侧实时显示不可编辑的 JSON。数据通过校验后，访客既可以复制 JSON 到评论，也可以点击“一键申请”前往 GitHub 确认并提交 Issue。
+
+下面的组件使用占位仓库 `your-name/your-site`，用于体验表单、校验、预览和复制交互。实际使用时必须替换为你自己的 GitHub 仓库。
+
+<FriendLinkApplication repository="your-name/your-site" />
+
+## 基础用法
+
+```astro
+import FriendLinkApplication from
+'@navfolio/mdx-components/FriendLinkApplication.astro';
+
+<FriendLinkApplication repository="owner/repository" />
+```
+
+`repository` 是唯一必填的组件参数，可以写成 `owner/repository`，也可以传完整的 `https://github.com/owner/repository` 地址。未配置 Issue Form 时，组件会创建普通 Issue 链接，并把右侧 JSON 自动写入正文。
+
+表单复用友链数据字段：
+
+| 字段              | 表单规则                                            |
+| ----------------- | --------------------------------------------------- |
+| `name`            | 必填，默认最多 80 个字符。                          |
+| `url`             | 必填，只接受完整的 HTTP/HTTPS 地址。                |
+| `bio`             | 可选，默认最多 160 个字符；友链卡片中最多显示两行。 |
+| `avatar`          | 可选，只接受 HTTP/HTTPS 地址。                      |
+| `backgroundImage` | 可选，只接受 HTTP/HTTPS 地址。                      |
+| `rss`             | 可选，只接受 HTTP/HTTPS 的 RSS 或 Atom 地址。       |
+| `sticky`          | 不出现在表单中，数据预览和复制结果始终为 `false`。  |
+
+右上角复制按钮在悬停时显示“可复制后填入评论申请友链！”，复制成功后切换为勾选图标和“成功复制！”提示。表单未通过校验时，复制和申请操作会先定位到无效字段。
+
+## 连接 GitHub Issue Form
+
+Issue Form 中每个输入项的 `id` 都可以作为 URL 查询参数使用。组件默认按 `name`、`url`、`bio`、`avatar`、`backgroundImage`、`rss` 这些 ID 预填；如果你的表单使用其他 ID，通过 `issueFieldMap` 映射。
+
+```astro
+<FriendLinkApplication
+  repository="owner/repository"
+  issueTemplate="friend-link.yml"
+  issueTitle="[友链申请] {name}"
+  issueFieldMap={{
+    backgroundImage: "background_image",
+  }}
+  labels={["friend-link"]}
+/>
+```
+
+建议在接收申请的仓库创建 `.github/ISSUE_TEMPLATE/friend-link.yml`：
+
+```yaml
+name: 申请友链
+description: 提交站点资料，等待维护者审核
+title: '[友链申请] '
+labels:
+  - friend-link
+body:
+  - type: input
+    id: name
+    attributes:
+      label: 站点名称
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: 站点地址
+    validations:
+      required: true
+
+  - type: textarea
+    id: bio
+    attributes:
+      label: 站点简介
+
+  - type: input
+    id: avatar
+    attributes:
+      label: 头像地址
+
+  - type: input
+    id: backgroundImage
+    attributes:
+      label: 背景图地址
+
+  - type: input
+    id: rss
+    attributes:
+      label: RSS 或 Atom 地址
+```
+
+Issue Form 的 `id` 负责接收预填值，Action 读取的 Issue 正文则由 `attributes.label` 生成标题。后续若要自动解析，请保持这些标题稳定。
+
+虽然组件支持 `labels` 查询参数，但 GitHub 只允许有相应权限的用户通过 URL 添加标签。面对公开访客时，应把 `friend-link` 写在 Issue Form 顶层 `labels` 中，并让 Action 只处理带该标签的 Issue。`labels` prop 更适合仓库成员使用，不能替代模板标签。
+
+## 组件参数
+
+| 参数              | 类型                                      | 默认值                    | 说明                                                           |
+| ----------------- | ----------------------------------------- | ------------------------- | -------------------------------------------------------------- |
+| `repository`      | `string`                                  | -                         | 必填，GitHub 仓库短名或完整地址。                              |
+| `issueTemplate`   | `string`                                  | -                         | `.github/ISSUE_TEMPLATE` 下的 Issue Form 文件名。              |
+| `issueTitle`      | `string`                                  | `'[友链申请] {name}'`     | Issue 标题模板，支持所有表单字段占位符。                       |
+| `issueBody`       | `string`                                  | 包含 `{json}` 的 Markdown | 没有 Issue Form 时使用的正文模板。                             |
+| `issueFieldMap`   | `Partial<Record<Field, string \| false>>` | 字段同名 ID               | 覆盖 Issue Form 字段 ID；设为 `false` 可跳过某字段。           |
+| `labels`          | `string[]`                                | `[]`                      | URL 中请求添加的标签；公开申请应优先使用 Issue Form 顶层标签。 |
+| `assignees`       | `string[]`                                | `[]`                      | URL 中请求添加的负责人，同样受 GitHub 权限限制。               |
+| `milestone`       | `string`                                  | -                         | URL 中请求关联的里程碑。                                       |
+| `projects`        | `string[]`                                | `[]`                      | URL 中请求关联的 GitHub Projects，例如 `owner/1`。             |
+| `initialValue`    | `Partial<FriendLinkItem>`                 | `{}`                      | 表单初始值；传入的 `sticky` 会被忽略。                         |
+| `placeholders`    | `Partial<Record<Field, string>>`          | 中文字段说明              | 覆盖各输入框 placeholder。                                     |
+| `nameMaxLength`   | `number`                                  | `80`                      | 站点名称最大长度。                                             |
+| `bioMaxLength`    | `number`                                  | `160`                     | 站点简介最大长度。                                             |
+| `urlMaxLength`    | `number`                                  | `2048`                    | 所有 URL 字段的最大长度。                                      |
+| `title`           | `string`                                  | `'申请友链'`              | 组件标题。                                                     |
+| `description`     | `string`                                  | 默认中文说明              | 组件标题下方的说明。                                           |
+| `applyLabel`      | `string`                                  | `'一键申请'`              | GitHub 跳转按钮文案。                                          |
+| `applyHint`       | `string`                                  | `'去开启一个申请 Issue'`  | 申请按钮 tooltip。                                             |
+| `copyHint`        | `string`                                  | 默认中文复制说明          | 复制按钮 tooltip。                                             |
+| `copySuccessText` | `string`                                  | `'成功复制！'`            | 复制成功状态文案。                                             |
+
+标题和正文模板支持 `{name}`、`{url}`、`{bio}`、`{avatar}`、`{backgroundImage}`、`{rss}`；`issueBody` 还支持 `{json}`。
+
+## 还需要在目标仓库完成什么
+
+这个 MDX 组件只负责浏览器端收集、基础校验和生成 Issue 链接。完整自动化仍需要在**接收申请的仓库**补齐两部分：
+
+1. Issue Form：使用稳定字段 ID，自动添加 `friend-link` 标签，并明确必填项。
+2. GitHub Actions：监听带 `friend-link` 标签的新 Issue，从正文提取字段后重新执行可信校验，再修改友链 JSON、创建固定分支和 PR，并在原 Issue 中回复结果。
+
+Action 不能信任浏览器校验，因为申请者可以在 GitHub 页面修改预填内容。它至少应重新检查必填字段、HTTP/HTTPS 协议、长度、重复站点和 JSON 结构；分支名建议使用 Issue 编号，并在重复运行时先查找已有分支或 PR。第一版只创建 PR，不自动合并。
+
+GitHub 当前支持通过 Issue URL 预填标题、正文、模板和 Issue Form 自定义字段，具体限制以 [Creating an issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue#creating-an-issue-from-a-url-query) 与 [Syntax for GitHub's form schema](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema) 为准。

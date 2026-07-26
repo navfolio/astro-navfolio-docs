@@ -26,16 +26,17 @@ import FriendLinkCard from '@navfolio/mdx-components/FriendLinkCard.astro'; impo
 
 ## 包含的组件
 
-| 组件              | 用途                                                       |
-| ----------------- | ---------------------------------------------------------- |
-| `FriendLinkCard`  | 响应式友链卡片，支持数据源回退、置顶、排序和随机背景。     |
-| `FriendCircle`    | 展示已同步的朋友文章池，并在客户端随机抽取文章。           |
-| `Carousel`        | 带上一页、下一页控制的内容轮播。                           |
-| `MusicPlayer`     | 原生音频与官方第三方嵌入，支持局部主题和两种展示形式。     |
-| `MediaShelf`      | 书、影、音封面墙；也可切换为适合正文点评的无边框内嵌条目。 |
-| `LongImage`       | 固定可视高度、支持内部滚动的长图。                         |
-| `ZoomableImage`   | 可点击放大的图片预览。                                     |
-| `MermaidRenderer` | 在页面加载及 Astro View Transition 后初始化 Mermaid 图表。 |
+| 组件                    | 用途                                                       |
+| ----------------------- | ---------------------------------------------------------- |
+| `FriendLinkCard`        | 响应式友链卡片，支持数据源回退、置顶、排序和随机背景。     |
+| `FriendLinkApplication` | 收集友链资料、复制标准 JSON，并生成预填的 GitHub Issue。   |
+| `FriendCircle`          | 展示已同步的朋友文章池，并在客户端随机抽取文章。           |
+| `Carousel`              | 带上一页、下一页控制的内容轮播。                           |
+| `MusicPlayer`           | 原生音频与官方第三方嵌入，支持局部主题和两种展示形式。     |
+| `MediaShelf`            | 书、影、音封面墙；也可切换为适合正文点评的无边框内嵌条目。 |
+| `LongImage`             | 固定可视高度、支持内部滚动的长图。                         |
+| `ZoomableImage`         | 可点击放大的图片预览。                                     |
+| `MermaidRenderer`       | 在页面加载及 Astro View Transition 后初始化 Mermaid 图表。 |
 
 包依赖宿主项目提供 Astro、`lucide-astro` 与 Mermaid。组件样式使用 Navfolio 的主题 CSS 变量，因此能自动适配浅色和深色模式，但不会依赖你的 `src/` 文件。
 
@@ -52,6 +53,6 @@ import Carousel from '@navfolio/mdx-components/Carousel.astro'; import ZoomableI
 '@navfolio/mdx-components/ZoomableImage.astro';
 ```
 
-友链接口详见 [FriendLinkCard](/blog/friend-link-card/)。若需要将友链 RSS 同步为静态文章数据，请使用 [Friend Circle Sync](/blog/friend-circle-sync/)。
+友链展示接口详见 [FriendLinkCard](/blog/friend-link-card/)，申请表单与 GitHub Issue 对接详见 [FriendLinkApplication](/blog/friend-link-application/)。若需要将友链 RSS 同步为静态文章数据，请使用 [Friend Circle Sync](/blog/friend-circle-sync/)。
 
 音乐播放器的本地音频、局部主题和第三方平台用法详见 [在 MDX 中嵌入音乐播放器](/blog/music-player/)。
