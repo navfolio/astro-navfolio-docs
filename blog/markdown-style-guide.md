@@ -48,12 +48,16 @@ sidebar:
 ### 语法
 
 ```markdown
-![图片替代文本](./图片路径)
+![图片替代文本](../../assets/figure/blog-sample-picture.png)
 ```
+
+正文中的本地图片路径相对于当前 Markdown 文件书写。`src/docs/blog/` 下的文章
+使用 `../../assets/figure/` 引用 `src/assets/figure/`；不要写成
+`/src/assets/...`，否则它会被当作普通站点 URL，而 `src` 目录不会发布到构建产物。
 
 ### 渲染效果
 
-![blog placeholder](/src/assets/figure/blog-sample-picture.png)
+![blog placeholder](../../assets/figure/blog-sample-picture.png)
 
 ## 引用
 

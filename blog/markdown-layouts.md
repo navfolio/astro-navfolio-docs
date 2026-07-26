@@ -23,6 +23,8 @@ sidebar:
 
 目前提供两种布局：通用 `columns` 分栏，以及按时间顺序阅读的 `timeline`。列、时间线事件内继续使用普通 Markdown，因此标题、图片、加粗、链接、引用和列表都照常可用。
 
+布局属性直接写在指令名后，并用空格分隔，例如 `::: columns cols=2 ratio=1:2`。不要使用 `{}` 包裹属性；在 MDX 中，花括号会被当作 JavaScript 表达式交给 Acorn 解析，并可能触发 `Could not parse expression with acorn`。
+
 ## 启用
 
 布局能力默认开启；在 `navfolio.config.ts` 中显式声明时，配置如下：
@@ -46,7 +48,7 @@ export default defineNavfolioConfig({
 一个分栏由 `columns` 容器和若干 `column` 组成。开始、结束与每一列的指令行都要单独占一段。
 
 ```md
-::: columns{cols=2 ratio=1:2}
+::: columns cols=2 ratio=1:2
 
 ::: column
 
@@ -65,7 +67,7 @@ export default defineNavfolioConfig({
 
 `cols` 可以省略，渲染器会根据 `column` 数量推断。若显式填写，它必须与实际列数一致。`ratio` 用冒号分隔正数来控制宽度比例；不填写时每列等宽。
 
-::: columns{cols=2 ratio=1:2}
+::: columns cols=2 ratio=1:2
 
 ::: column
 
@@ -96,7 +98,7 @@ export default defineNavfolioConfig({
 媒体不是另一种布局，而是带有 `media` 标记的一列。显式标记避免把普通截图误判为媒体内容。下例在宽屏时让文字与图片并排，在窄屏时则把图片移到文字前面。
 
 ```md
-::: columns{cols=2 ratio=3:2 mobile=media-first}
+::: columns cols=2 ratio=3:2 mobile=media-first
 
 ::: column
 
@@ -104,16 +106,16 @@ export default defineNavfolioConfig({
 
 :::
 
-::: column{media}
+::: column media
 
-![图片说明](/src/assets/figure/blog-sample-picture.png)
+![图片说明](../../assets/figure/blog-sample-picture.png)
 
 :::
 
 :::
 ```
 
-::: columns{cols=2 ratio=3:2 mobile=media-first}
+::: columns cols=2 ratio=3:2 mobile=media-first
 
 ::: column
 
@@ -125,9 +127,9 @@ _FIELD NOTE · 07_
 
 :::
 
-::: column{media}
+::: column media
 
-![Navfolio 示例图片](/src/assets/figure/blog-sample-picture.png)
+![Navfolio 示例图片](../../assets/figure/blog-sample-picture.png)
 
 :::
 
@@ -142,7 +144,7 @@ _FIELD NOTE · 07_
 ```md
 ::: timeline
 
-::: event{date=2024.06}
+::: event date=2024.06
 
 ### 收集
 
@@ -150,7 +152,7 @@ _FIELD NOTE · 07_
 
 :::
 
-::: event{date=2025.01}
+::: event date=2025.01
 
 ### 发布
 
@@ -163,7 +165,7 @@ _FIELD NOTE · 07_
 
 ::: timeline
 
-::: event{date=2024.06}
+::: event date=2024.06
 
 ### 收集
 
@@ -171,7 +173,7 @@ _FIELD NOTE · 07_
 
 :::
 
-::: event{date=2024.10}
+::: event date=2024.10
 
 ### 成形
 
@@ -179,7 +181,7 @@ _FIELD NOTE · 07_
 
 :::
 
-::: event{date=2025.01}
+::: event date=2025.01
 
 ### 发布
 
@@ -194,21 +196,21 @@ _FIELD NOTE · 07_
 当节点较少且连续时，可以显式使用横向时间线。事件列不会为适应窄屏而压缩；超出正文宽度时会出现横向滚动条，保留时间顺序与每个节点的可读宽度。
 
 ```md
-::: timeline{direction=horizontal}
+::: timeline direction=horizontal
 
-::: event{date=2024.06}
+::: event date=2024.06
 
 ### 收集
 
 :::
 
-::: event{date=2024.10}
+::: event date=2024.10
 
 ### 成形
 
 :::
 
-::: event{date=2025.01}
+::: event date=2025.01
 
 ### 发布
 
@@ -217,9 +219,9 @@ _FIELD NOTE · 07_
 :::
 ```
 
-::: timeline{direction=horizontal}
+::: timeline direction=horizontal
 
-::: event{date=2024.06}
+::: event date=2024.06
 
 ### 收集
 
@@ -227,7 +229,7 @@ _FIELD NOTE · 07_
 
 :::
 
-::: event{date=2024.10}
+::: event date=2024.10
 
 ### 成形
 
@@ -235,7 +237,7 @@ _FIELD NOTE · 07_
 
 :::
 
-::: event{date=2025.01}
+::: event date=2025.01
 
 ### 发布
 
@@ -243,7 +245,7 @@ _FIELD NOTE · 07_
 
 :::
 
-::: event{date=2026.07}
+::: event date=2026.07
 
 ### 扩展
 
