@@ -1,7 +1,7 @@
 ---
-title: "从表单生成友链申请"
-description: "在 MDX 中收集并复制友链字段数据，跳转到预填的 GitHub Issue 或 Issue Form。"
-date: "2026-07-26T00:00:00+08:00"
+title: '从表单生成友链申请'
+description: '在 MDX 中收集并复制友链字段数据，跳转到预填的 GitHub Issue 或 Issue Form。'
+date: '2026-07-26T00:00:00+08:00'
 draft: false
 tags:
   - MDX
@@ -19,7 +19,7 @@ sidebar:
   relatedPosts: true
 ---
 
-import FriendLinkApplication from "@navfolio/mdx-components/FriendLinkApplication.astro";
+import FriendLinkApplication from '@navfolio/mdx-components/FriendLinkApplication.astro';
 
 `FriendLinkApplication` 把友链申请拆成两个占满内容宽度的滑动页面：默认专注填写站点资料，点击右上角“查看友链数据”后平滑切换到只读数据预览页；预览页左上角可以返回继续填写。数据通过校验后，访客既可以复制不带外层花括号的字段内容到评论，也可以点击“一键申请”前往 GitHub 确认并提交 Issue。
 
@@ -86,7 +86,7 @@ Issue Form 中每个输入项的 `id` 都可以作为 URL 查询参数使用。�
 ```yaml
 name: 申请友链
 description: 提交站点资料，等待维护者审核
-title: "[友链申请] "
+title: '[友链申请] '
 labels:
   - friend-link
 body:
