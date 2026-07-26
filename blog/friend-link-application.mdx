@@ -1,7 +1,7 @@
 ---
-title: 'FriendLinkApplication：从表单生成友链申请'
-description: '在 MDX 中收集并复制友链字段数据，跳转到预填的 GitHub Issue 或 Issue Form。'
-date: '2026-07-26T00:00:00+08:00'
+title: "从表单生成友链申请"
+description: "在 MDX 中收集并复制友链字段数据，跳转到预填的 GitHub Issue 或 Issue Form。"
+date: "2026-07-26T00:00:00+08:00"
 draft: false
 tags:
   - MDX
@@ -19,9 +19,9 @@ sidebar:
   relatedPosts: true
 ---
 
-import FriendLinkApplication from '@navfolio/mdx-components/FriendLinkApplication.astro';
+import FriendLinkApplication from "@navfolio/mdx-components/FriendLinkApplication.astro";
 
-`FriendLinkApplication` 把友链申请拆成两个占满内容宽度的滑动页面：默认专注填写站点资料，点击右上角“查看友链数据”后平滑切换到只读数据编辑器；预览页左上角可以返回继续填写。数据通过校验后，访客既可以复制不带外层花括号的字段内容到评论，也可以点击“一键申请”前往 GitHub 确认并提交 Issue。
+`FriendLinkApplication` 把友链申请拆成两个占满内容宽度的滑动页面：默认专注填写站点资料，点击右上角“查看友链数据”后平滑切换到只读数据预览页；预览页左上角可以返回继续填写。数据通过校验后，访客既可以复制不带外层花括号的字段内容到评论，也可以点击“一键申请”前往 GitHub 确认并提交 Issue。
 
 下面的组件使用占位仓库 `your-name/your-site`，用于体验表单、校验、预览和复制交互。实际使用时必须替换为你自己的 GitHub 仓库。
 
@@ -57,7 +57,7 @@ import FriendLinkApplication from '@navfolio/mdx-components/FriendLinkApplicatio
 
 宽容器中的表单按 `站点名称 | 站点地址`、`头像地址 | 背景图地址`、整行 `站点描述`、`RSS 地址 | 一键申请` 四行排列。每个字段都是较窄的中文标签配合右侧有界输入区，长内容只在输入框内部滚动，不会撑开组件；窄容器会自动收为单列。`bio`、`avatar` 和 `backgroundImage` 的默认 placeholder 分别为“可选，站点描述或个人 bio，最多 160 字。”、“可选，圆形头像地址。”和“可选，卡片背景图地址。”。
 
-表单页右上角的引导按钮会切换到完整宽度的只读代码预览。预览和复制结果都不包含最外层花括号；普通 Issue 的正文仍使用完整 JSON 对象。预览页右上角复制按钮在悬停时显示“可复制后填入评论申请友链！”，复制成功后切换为勾选图标和“成功复制！”提示；如果表单尚未通过校验，复制操作会自动返回表单并定位到无效字段。
+表单页右上角的引导按钮会切换到完整宽度的只读字段预览。预览和复制结果都不包含最外层花括号；这段内容用于粘贴到评论，不是可以独立解析的标准 JSON。普通 Issue 的正文仍使用完整 JSON 对象。预览页右上角复制按钮在悬停时显示“可复制后填入评论申请友链！”，复制成功后切换为勾选图标和“成功复制！”提示；如果表单尚未通过校验，复制操作会自动返回表单并定位到无效字段。
 
 组件默认使用 `appearance="seamless"`，没有外围边框和阴影，可以自然嵌入文章页面。需要明确的卡片边界时，切换为只有细边框、没有投影的 `bordered`：
 
@@ -86,7 +86,7 @@ Issue Form 中每个输入项的 `id` 都可以作为 URL 查询参数使用。�
 ```yaml
 name: 申请友链
 description: 提交站点资料，等待维护者审核
-title: '[友链申请] '
+title: "[友链申请] "
 labels:
   - friend-link
 body:
@@ -135,7 +135,7 @@ Issue Form 的 `id` 负责接收预填值，Action 读取的 Issue 正文则由 
 | ----------------- | ----------------------------------------- | ------------------------- | -------------------------------------------------------------- |
 | `repository`      | `string`                                  | -                         | 必填，GitHub 仓库短名或完整地址。                              |
 | `appearance`      | `'seamless' \| 'bordered'`                | `'seamless'`              | 无痕嵌入，或显示无阴影的纸张边框。                             |
-| `issueTemplate`   | `string`                                  | -                         | `.github/ISSUE_TEMPLATE` 下的 Issue Form 文件名。              |
+| `issueTemplate`   | `string`                                  | -                         | 仓库 `ISSUE_TEMPLATE` 目录中的 Issue Form 文件名。             |
 | `issueTitle`      | `string`                                  | `'[友链申请] {name}'`     | Issue 标题模板，支持所有表单字段占位符。                       |
 | `issueBody`       | `string`                                  | 包含 `{json}` 的 Markdown | 没有 Issue Form 时使用的正文模板。                             |
 | `issueFieldMap`   | `Partial<Record<Field, string \| false>>` | 字段同名 ID               | 覆盖 Issue Form 字段 ID；设为 `false` 可跳过某字段。           |
