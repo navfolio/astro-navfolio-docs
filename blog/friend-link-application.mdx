@@ -49,6 +49,8 @@ import FriendLinkApplication from '@navfolio/mdx-components/FriendLinkApplicatio
 | `rss`             | 可选，只接受 HTTP/HTTPS 的 RSS 或 Atom 地址。       |
 | `sticky`          | 不出现在表单中，数据预览和复制结果始终为 `false`。  |
 
+桌面表单按 `name | url`、`avatar | backgroundImage`、整行 `bio`、`rss | 一键申请` 四行排列。每个字段都是左侧标签、右侧固定宽度输入区，长内容只在输入框内部滚动，不会撑开组件。`bio`、`avatar` 和 `backgroundImage` 的默认 placeholder 分别为“可选，站点描述或个人 bio。”、“可选，圆形头像地址。”和“可选，卡片背景图地址。”。
+
 右上角复制按钮在悬停时显示“可复制后填入评论申请友链！”，复制成功后切换为勾选图标和“成功复制！”提示。表单未通过校验时，复制和申请操作会先定位到无效字段。
 
 组件默认使用 `appearance="seamless"`，没有外围边框和阴影，可以自然嵌入文章页面。需要明确的卡片边界时，切换为只有细边框、没有投影的 `bordered`：
