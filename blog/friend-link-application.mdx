@@ -51,6 +51,12 @@ import FriendLinkApplication from '@navfolio/mdx-components/FriendLinkApplicatio
 
 右上角复制按钮在悬停时显示“可复制后填入评论申请友链！”，复制成功后切换为勾选图标和“成功复制！”提示。表单未通过校验时，复制和申请操作会先定位到无效字段。
 
+组件默认使用 `appearance="seamless"`，没有外围边框和阴影，可以自然嵌入文章页面。需要明确的卡片边界时，切换为只有细边框、没有投影的 `bordered`：
+
+```astro
+<FriendLinkApplication repository="owner/repository" appearance="bordered" />
+```
+
 ## 连接 GitHub Issue Form
 
 Issue Form 中每个输入项的 `id` 都可以作为 URL 查询参数使用。组件默认按 `name`、`url`、`bio`、`avatar`、`backgroundImage`、`rss` 这些 ID 预填；如果你的表单使用其他 ID，通过 `issueFieldMap` 映射。
@@ -120,6 +126,7 @@ Issue Form 的 `id` 负责接收预填值，Action 读取的 Issue 正文则由 
 | 参数              | 类型                                      | 默认值                    | 说明                                                           |
 | ----------------- | ----------------------------------------- | ------------------------- | -------------------------------------------------------------- |
 | `repository`      | `string`                                  | -                         | 必填，GitHub 仓库短名或完整地址。                              |
+| `appearance`      | `'seamless' \| 'bordered'`                | `'seamless'`              | 无痕嵌入，或显示无阴影的纸张边框。                             |
 | `issueTemplate`   | `string`                                  | -                         | `.github/ISSUE_TEMPLATE` 下的 Issue Form 文件名。              |
 | `issueTitle`      | `string`                                  | `'[友链申请] {name}'`     | Issue 标题模板，支持所有表单字段占位符。                       |
 | `issueBody`       | `string`                                  | 包含 `{json}` 的 Markdown | 没有 Issue Form 时使用的正文模板。                             |
