@@ -1,6 +1,6 @@
 ---
 title: 'FriendLinkApplication：从表单生成友链申请'
-description: '在 MDX 中收集友链资料、复制标准 JSON，并跳转到预填的 GitHub Issue 或 Issue Form。'
+description: '在 MDX 中收集并复制友链字段数据，跳转到预填的 GitHub Issue 或 Issue Form。'
 date: '2026-07-26T00:00:00+08:00'
 draft: false
 tags:
@@ -21,7 +21,7 @@ sidebar:
 
 import FriendLinkApplication from '@navfolio/mdx-components/FriendLinkApplication.astro';
 
-`FriendLinkApplication` 把友链申请拆成两个占满内容宽度的滑动页面：默认专注填写站点资料，点击右上角“查看友链数据”后平滑切换到只读 JSON 编辑器；预览页左上角可以返回继续填写。数据通过校验后，访客既可以复制 JSON 到评论，也可以点击“一键申请”前往 GitHub 确认并提交 Issue。
+`FriendLinkApplication` 把友链申请拆成两个占满内容宽度的滑动页面：默认专注填写站点资料，点击右上角“查看友链数据”后平滑切换到只读数据编辑器；预览页左上角可以返回继续填写。数据通过校验后，访客既可以复制不带外层花括号的字段内容到评论，也可以点击“一键申请”前往 GitHub 确认并提交 Issue。
 
 下面的组件使用占位仓库 `your-name/your-site`，用于体验表单、校验、预览和复制交互。实际使用时必须替换为你自己的 GitHub 仓库。
 
@@ -35,7 +35,13 @@ import FriendLinkApplication from '@navfolio/mdx-components/FriendLinkApplicatio
 <FriendLinkApplication repository="owner/repository" />
 ```
 
-`repository` 是唯一必填的组件参数，可以写成 `owner/repository`，也可以传完整的 `https://github.com/owner/repository` 地址。未配置 Issue Form 时，组件会创建普通 Issue 链接，并把预览页中的 JSON 自动写入正文。
+`repository` 是唯一必填的组件参数，可以写成 `owner/repository`，也可以传完整的 `https://github.com/owner/repository` 地址。未配置 Issue Form 时，组件会创建普通 Issue 链接，并把完整 JSON 对象自动写入正文。
+
+顶部标题默认是“申请友链”，使用 `title` 可以按页面语境自定义：
+
+```astro
+<FriendLinkApplication repository="owner/repository" title="申请加入本站友链" />
+```
 
 表单复用友链数据字段：
 
@@ -51,7 +57,7 @@ import FriendLinkApplication from '@navfolio/mdx-components/FriendLinkApplicatio
 
 宽容器中的表单按 `站点名称 | 站点地址`、`头像地址 | 背景图地址`、整行 `站点描述`、`RSS 地址 | 一键申请` 四行排列。每个字段都是较窄的中文标签配合右侧有界输入区，长内容只在输入框内部滚动，不会撑开组件；窄容器会自动收为单列。`bio`、`avatar` 和 `backgroundImage` 的默认 placeholder 分别为“可选，站点描述或个人 bio，最多 160 字。”、“可选，圆形头像地址。”和“可选，卡片背景图地址。”。
 
-表单页右上角的引导按钮会切换到完整宽度的只读代码预览。预览页右上角复制按钮在悬停时显示“可复制后填入评论申请友链！”，复制成功后切换为勾选图标和“成功复制！”提示；如果表单尚未通过校验，复制操作会自动返回表单并定位到无效字段。
+表单页右上角的引导按钮会切换到完整宽度的只读代码预览。预览和复制结果都不包含最外层花括号；普通 Issue 的正文仍使用完整 JSON 对象。预览页右上角复制按钮在悬停时显示“可复制后填入评论申请友链！”，复制成功后切换为勾选图标和“成功复制！”提示；如果表单尚未通过校验，复制操作会自动返回表单并定位到无效字段。
 
 组件默认使用 `appearance="seamless"`，没有外围边框和阴影，可以自然嵌入文章页面。需要明确的卡片边界时，切换为只有细边框、没有投影的 `bordered`：
 
